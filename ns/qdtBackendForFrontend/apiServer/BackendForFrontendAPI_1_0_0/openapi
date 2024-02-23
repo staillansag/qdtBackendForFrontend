@@ -1,0 +1,255 @@
+openapi: 3.0.0
+info:
+  title: Backend For Frontend API
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /contacts/{contactId}:
+    get:
+      summary: Get a specific contact's information
+      operationId: getContact
+      parameters:
+      - name: contactId
+        in: path
+        description: The unique identifier of the contact
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: a154490b-1791-4473-bd5e-1fe6548f907d
+      responses:
+        "200":
+          description: Contact information successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+              example:
+                id: a154490b-1791-4473-bd5e-1fe6548f907d
+                salutation:
+                  code: Mr
+                  wording: Mister
+                firstName: Steven
+                middleName: James
+                lastName: Rose
+                birthDate: 1995-01-18
+                email: s.rose@company.com
+                phoneNumber: "+123456789"
+                creationDateTime: 2024-02-21T07:52:49.705Z
+                lastUpdateDateTime: 2024-02-21T07:52:49.705Z
+                contactRole:
+                - role:
+                    code: Employee
+                    wording: Employee
+                  account:
+                    id: 0017Q00000sXM0pQAG
+                    isActive: true
+                    name: Software AG France
+                    type:
+                      code: Customer - Direct
+                      wording: Customer - Direct
+                    description: French subsidiary of Software AG
+                    billingAddress:
+                      street: 4 place des Saisons
+                      city: Courbevoie
+                      state: Hauts de Seine
+                      postalCode: "92400"
+                      country:
+                        code: FR
+                        wording: France
+                    shippingAddress:
+                      street: 1 rue de Rivoli
+                      city: Paris
+                      state: Paris
+                      postalCode: "75001"
+                      country:
+                        code: FR
+                        wording: France
+                    industry:
+                      code: NAF5829C
+                      wording: Software Publishing
+                    identifierType:
+                      code: SIREN
+                      wording: SIREN
+                    identifierValue: "327992319"
+        "400":
+          description: Bad request. Error details provided in the response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized. Authentication required.
+        "403":
+          description: Forbidden. Authorization required.
+        "404":
+          description: Account not found.
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Contact:
+      required:
+      - contactRole
+      - creationDateTime
+      - email
+      - firstName
+      - id
+      - lastName
+      - lastUpdateDateTime
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: a154490b-1791-4473-bd5e-1fe6548f907d
+        salutation:
+          $ref: '#/components/schemas/ReferenceData'
+        firstName:
+          maxLength: 100
+          type: string
+          example: Steven
+        middleName:
+          maxLength: 100
+          type: string
+          example: James
+        lastName:
+          maxLength: 100
+          type: string
+          example: Rose
+        birthDate:
+          type: string
+          format: date
+          example: 1995-01-18
+        email:
+          type: string
+          format: email
+          example: s.rose@company.com
+        phoneNumber:
+          type: string
+          example: "+123456789"
+        creationDateTime:
+          type: string
+          format: date-time
+          example: 2024-02-21T07:52:49.705Z
+        lastUpdateDateTime:
+          type: string
+          format: date-time
+          example: 2024-02-21T07:52:49.705Z
+        contactRole:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactRole'
+    ContactRole:
+      required:
+      - account
+      - role
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/ReferenceData'
+        account:
+          $ref: '#/components/schemas/Account'
+    Account:
+      required:
+      - id
+      - isActive
+      - name
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          example: 0017Q00000sXM0pQAG
+        isActive:
+          type: boolean
+          example: true
+        name:
+          maxLength: 100
+          type: string
+          example: Software AG France
+        type:
+          $ref: '#/components/schemas/ReferenceData'
+        description:
+          maxLength: 1000
+          type: string
+          example: French subsidiary of Software AG
+        billingAddress:
+          $ref: '#/components/schemas/Address'
+        shippingAddress:
+          $ref: '#/components/schemas/Address'
+        industry:
+          $ref: '#/components/schemas/ReferenceData'
+        identifierType:
+          $ref: '#/components/schemas/ReferenceData'
+        identifierValue:
+          maxLength: 100
+          type: string
+          example: "327992319"
+    Address:
+      required:
+      - city
+      - country
+      - postalCode
+      - street
+      type: object
+      properties:
+        street:
+          maxLength: 200
+          type: string
+          example: 4 place des Saisons
+        city:
+          maxLength: 100
+          type: string
+          example: Courbevoie
+        state:
+          maxLength: 100
+          type: string
+          example: Hauts de Seine
+        postalCode:
+          maxLength: 20
+          type: string
+          example: "92400"
+        country:
+          $ref: '#/components/schemas/ReferenceData'
+    ReferenceData:
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          maxLength: 20
+          type: string
+          example: MR
+        wording:
+          maxLength: 100
+          type: string
+          example: Mister
+    Error:
+      required:
+      - message
+      type: object
+      properties:
+        Exception:
+          maxLength: 1000
+          type: string
+          description: Error message detailing what went wrong.
+          example: Internal server error
+        Code:
+          maxLength: 3
+          minLength: 3
+          type: string
+          description: HTTP status code associated to the error.
+          example: "500"
+        TransactionId:
+          maxLength: 50
+          type: string
+          description: "A unique identifier for the transaction, for debugging."
+          example: APIGW:e632bb5e-bf09-473e-958c-0f2cc202bf42:621
