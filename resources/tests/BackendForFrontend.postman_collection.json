@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "6f4337b4-8c4a-419d-9658-cadf41699089",
+		"name": "QDT Backend for frontend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32883895"
+	},
+	"item": [
+		{
+			"name": "Get contact",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.upsert({key: 'Accept', value: 'application/json'});\r",
+							"\r",
+							"let apiKey = pm.environment.get(\"apiKey\");\r",
+							"\r",
+							"if(apiKey) {\r",
+							"    pm.request.headers.add({\r",
+							"        key: 'x-gateway-apikey',\r",
+							"        value: apiKey\r",
+							"    });\r",
+							"} "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "fr-FR",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/contacts/:contactId",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"contacts",
+						":contactId"
+					],
+					"variable": [
+						{
+							"key": "contactId",
+							"value": "9f4a83ca-4201-4312-ba55-abfba8658a1e"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
