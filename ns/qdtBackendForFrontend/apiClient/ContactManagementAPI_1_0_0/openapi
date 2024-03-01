@@ -1,21 +1,209 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
-  title: ContactManagementAPI
-  description: "API for managing contacts and their roles in accounts, with address\
-    \ details."
-  version: 1.0.0
+  title: Contacts and Contact Roles API
+  description: An API for managing contacts and their roles in accounts.
+  version: "1.0"
 servers:
-- url: https://env132575.apigw-aw-eu.webmethods.io/gateway/ContactManagementAPI/1.0.0
+- url: /
 security:
+- httpBasicAuth: []
 - apiKey: []
-tags:
-- name: Contacts
-  description: ""
-- name: Contact roles
-  description: ""
 paths:
+  /contacts:
+    get:
+      tags:
+      - Contacts
+      summary: List all contacts
+      operationId: listContacts
+      parameters:
+      - name: lastName
+        in: query
+        description: Filter by contact last name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: Doe
+      - name: firstName
+        in: query
+        description: Filter by contact first name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: John
+      - name: lastUpdateBefore
+        in: query
+        description: Filter by contacts last updated before the specified date
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date-time
+          example: 2022-12-01T00:00:00Z
+      - name: lastUpdateAfter
+        in: query
+        description: Filter by contacts last updated after the specified date
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date-time
+          example: 2022-11-01T00:00:00Z
+      - name: limit
+        in: query
+        description: Maximum number of contacts to return in a single call
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 2000
+          minimum: 200
+          type: integer
+          example: 200
+          default: 200
+      - name: offset
+        in: query
+        description: Pagination offset
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 0
+          type: integer
+          example: 200
+          default: 0
+      - name: sortBy
+        in: query
+        description: Attribute to sort the contacts by
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: lastName
+          default: id
+          enum:
+          - id
+          - lastName
+          - lastUpdateDateTime
+      - name: sortOrder
+        in: query
+        description: Sort order for the results
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: ascending
+          default: ascending
+          enum:
+          - ascending
+          - descending
+      responses:
+        "200":
+          description: A list of contacts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedContacts'
+              examples:
+                default:
+                  summary: Example response of contact list
+                  value:
+                    itemCount: 1
+                    hasMore: false
+                    contacts:
+                    - id: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                      salutation: Mr
+                      firstName: John
+                      middleName: Robert
+                      lastName: Doe
+                      birthDate: 1997-12-15
+                      email: john.doe@example.com
+                      phoneNumber: 123-456-7890
+                      creationDateTime: 2022-12-05T11:23:56.724Z
+                      lastUpdateDateTime: 2022-12-05T11:23:56.724Z
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+      - Contacts
+      summary: Create a new contact
+      operationId: createContact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+            examples:
+              default:
+                summary: Example request to create a contact
+                value:
+                  salutation: Mr
+                  firstName: John
+                  middleName: Robert
+                  lastName: Doe
+                  birthDate: 1997-12-15
+                  email: john.doe@example.com
+                  phoneNumber: 123-456-7890
+        required: true
+      responses:
+        "201":
+          description: The created contact
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+              examples:
+                default:
+                  summary: Example response of contact creation
+                  value:
+                    id: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                    salutation: Mr
+                    firstName: John
+                    middleName: Robert
+                    lastName: Doe
+                    birthDate: 1997-12-15
+                    email: john.doe@example.com
+                    phoneNumber: 123-456-7890
+                    creationDateTime: 2022-12-05T11:23:56.724Z
+                    lastUpdateDateTime: 2022-12-05T11:23:56.724Z
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /contacts/{contactId}:
-    summary: "/contacts/{contactId}"
     get:
       tags:
       - Contacts
@@ -27,7 +215,9 @@ paths:
         required: true
         style: simple
         explode: false
-        schema: {}
+        schema:
+          type: string
+          format: uuid
       responses:
         "200":
           description: A single contact
@@ -35,34 +225,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Contact'
-              example: "{\"id\":\"cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"salutation\"\
-                :\"Mr.\",\"firstName\":\"John\",\"middleName\":\"Robert\",\"lastName\"\
-                :\"Doe\",\"birthDate\":\"1997-12-15\",\"email\":\"john.doe@example.com\"\
-                ,\"phoneNumber\":\"123-456-7890\",\"creationDateTime\":\"2022-12-05T11:23:56.724Z\"\
-                ,\"lastUpdateDateTime\":\"2022-12-05T11:23:56.724Z\"}"
+              examples:
+                default:
+                  summary: Example response of contact retrieval
+                  value:
+                    id: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                    salutation: Mr
+                    firstName: John
+                    middleName: Robert
+                    lastName: Doe
+                    birthDate: 1997-12-15
+                    email: john.doe@example.com
+                    phoneNumber: 123-456-7890
+                    creationDateTime: 2022-12-05T11:23:56.724Z
+                    lastUpdateDateTime: 2022-12-05T11:23:56.724Z
         "400":
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
         "401":
           description: Unauthorized
-          content: {}
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
-        "403":
-          description: Forbidden
-          content: {}
-        "404":
-          description: Not found
-          content: {}
     put:
       tags:
       - Contacts
@@ -74,16 +268,27 @@ paths:
         required: true
         style: simple
         explode: false
-        schema: {}
+        schema:
+          type: string
+          format: uuid
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Contact'
-            example: "{\"id\":\"cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"salutation\"\
-              :\"Mr.\",\"firstName\":\"John\",\"middleName\":\"Robert\",\"lastName\"\
-              :\"Doe\",\"birthDate\":\"1997-12-15\",\"email\":\"john.doe@example.com\"\
-              ,\"phoneNumber\":\"123-456-7890\"}"
+            examples:
+              default:
+                summary: Example request to update a contact
+                value:
+                  id: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                  salutation: Mr
+                  firstName: John
+                  middleName: Robert
+                  lastName: Doe
+                  birthDate: 1997-12-15
+                  email: john.doe@example.com
+                  phoneNumber: 123-456-7890
+        required: true
       responses:
         "200":
           description: The updated contact
@@ -91,34 +296,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Contact'
-              example: "{\"id\":\"cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"salutation\"\
-                :\"Mr.\",\"firstName\":\"John\",\"middleName\":\"Robert\",\"lastName\"\
-                :\"Doe\",\"birthDate\":\"1997-12-15\",\"email\":\"john.doe@example.com\"\
-                ,\"phoneNumber\":\"123-456-7890\",\"creationDateTime\":\"2022-12-05T11:23:56.724Z\"\
-                ,\"lastUpdateDateTime\":\"2022-12-05T11:23:56.724Z\"}"
+              examples:
+                default:
+                  summary: Example response of contact update
+                  value:
+                    id: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                    salutation: Mr
+                    firstName: John
+                    middleName: Robert
+                    lastName: Doe
+                    birthDate: 1997-12-15
+                    email: john.doe@example.com
+                    phoneNumber: 123-456-7890
+                    creationDateTime: 2022-12-05T11:23:56.724Z
+                    lastUpdateDateTime: 2022-12-05T11:23:56.724Z
         "400":
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
         "401":
           description: Unauthorized
-          content: {}
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
-        "403":
-          description: Forbidden
-          content: {}
-        "404":
-          description: Not found
-          content: {}
     delete:
       tags:
       - Contacts
@@ -130,36 +339,31 @@ paths:
         required: true
         style: simple
         explode: false
-        schema: {}
+        schema:
+          type: string
+          format: uuid
       responses:
+        "204":
+          description: No content (successful deletion)
         "400":
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
         "401":
           description: Unauthorized
-          content: {}
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
-        "204":
-          description: No content (successful deletion)
-          content: {}
-        "403":
-          description: Forbidden
-          content: {}
-        "404":
-          description: Not found
-          content: {}
   /contacts/{contactId}/roles:
-    summary: "/contacts/{contactId}/roles"
     get:
       tags:
       - Contact roles
@@ -172,23 +376,24 @@ paths:
         style: simple
         explode: false
         schema:
-          example: '"cc01d7c2-aa54-4504-8b98-28bd730d51d8"'
+          type: string
+          format: uuid
+          example: cc01d7c2-aa54-4504-8b98-28bd730d51d8
       - name: accountId
         in: query
         description: Filter by account ID
         required: false
-        allowEmptyValue: false
         style: form
         explode: true
         schema:
           maxLength: 18
-          minLength: 18
+          minLength: 15
           type: string
+        example: 0017Q000009ZWn6QAG
       - name: role
         in: query
         description: Filter by contact role
         required: false
-        allowEmptyValue: false
         style: form
         explode: true
         schema:
@@ -208,30 +413,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ContactRole'
-              example: "[{\"id\":\"a1234567-89b0-12d3-a456-426614174000\",\"contactId\"\
-                :\"cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"accountId\":\"0017Q000009ZWn6QAG\"\
-                ,\"contactRole\":\"Employee\",\"creationDateTime\":\"2022-12-05T11:23:56.724Z\"\
-                ,\"lastUpdateDateTime\":\"2022-12-07T14:35:00.000Z\"}]"
+              examples:
+                default:
+                  summary: Example response of contact list
+                  value:
+                  - id: a1234567-89b0-12d3-a456-426614174000
+                    contactId: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                    accountId: 0017Q000009ZWn6QAG
+                    contactRole: Employee
+                    creationDateTime: 2022-12-05T11:23:56.724Z
+                    lastUpdateDateTime: 2022-12-07T14:35:00.000Z
         "400":
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
         "401":
           description: Unauthorized
-          content: {}
+        "403":
+          description: Forbidden
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
-        "403":
-          description: Forbidden
-          content: {}
     post:
       tags:
       - Contact roles
@@ -244,14 +451,22 @@ paths:
         style: simple
         explode: false
         schema:
-          example: '"cc01d7c2-aa54-4504-8b98-28bd730d51d8"'
+          type: string
+          format: uuid
+          example: cc01d7c2-aa54-4504-8b98-28bd730d51d8
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactRole'
-            example: "{\"contactId\":\"cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"accountId\"\
-              :\"0017Q000009ZWn6QAG\",\"contactRole\":\"Employee\"}"
+            examples:
+              default:
+                summary: Example request to create a contact role
+                value:
+                  contactId: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                  accountId: 0017Q000009ZWn6QAG
+                  contactRole: Employee
+        required: true
       responses:
         "201":
           description: The created contact
@@ -259,32 +474,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContactRole'
-              example: "{\"id\":\"a1234567-89b0-12d3-a456-426614174000\",\"contactId\"\
-                :\"cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"accountId\":\"0017Q000009ZWn6QAG\"\
-                ,\"contactRole\":\"Employee\",\"creationDateTime\":\"2022-12-05T11:23:56.724Z\"\
-                ,\"lastUpdateDateTime\":\"2022-12-07T14:35:00.000Z\"}"
+              examples:
+                default:
+                  summary: Example response of contact role creation
+                  value:
+                    id: a1234567-89b0-12d3-a456-426614174000
+                    contactId: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                    accountId: 0017Q000009ZWn6QAG
+                    contactRole: Employee
+                    creationDateTime: 2022-12-05T11:23:56.724Z
+                    lastUpdateDateTime: 2022-12-07T14:35:00.000Z
         "400":
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
         "401":
           description: Unauthorized
-          content: {}
+        "403":
+          description: Forbidden
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
-        "403":
-          description: Forbidden
-          content: {}
   /contacts/{contactId}/roles/{roleId}:
-    summary: "/contacts/{contactId}/roles/{roleId}"
     get:
       tags:
       - Contact roles
@@ -297,14 +519,18 @@ paths:
         style: simple
         explode: false
         schema:
-          example: '"cc01d7c2-aa54-4504-8b98-28bd730d51d8"'
+          type: string
+          format: uuid
+          example: cc01d7c2-aa54-4504-8b98-28bd730d51d8
       - name: roleId
         in: path
         required: true
         style: simple
         explode: false
         schema:
-          example: '"a1234567-89b0-12d3-a456-426614174000"'
+          type: string
+          format: uuid
+          example: a1234567-89b0-12d3-a456-426614174000
       responses:
         "200":
           description: A single contact
@@ -312,33 +538,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContactRole'
-              example: "{\"id\":\"a1234567-89b0-12d3-a456-426614174000\",\"contactId\"\
-                :\"cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"accountId\":\"0017Q000009ZWn6QAG\"\
-                ,\"contactRole\":\"Employee\",\"creationDateTime\":\"2022-12-05T11:23:56.724Z\"\
-                ,\"lastUpdateDateTime\":\"2022-12-07T14:35:00.000Z\"}"
+              examples:
+                default:
+                  summary: Example response of contact role retrieval
+                  value:
+                    id: a1234567-89b0-12d3-a456-426614174000
+                    contactId: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                    accountId: 0017Q000009ZWn6QAG
+                    contactRole: Employee
+                    creationDateTime: 2022-12-05T11:23:56.724Z
+                    lastUpdateDateTime: 2022-12-07T14:35:00.000Z
         "400":
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
         "401":
           description: Unauthorized
-          content: {}
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
-        "403":
-          description: Forbidden
-          content: {}
-        "404":
-          description: Not found
-          content: {}
     put:
       tags:
       - Contact roles
@@ -351,22 +578,32 @@ paths:
         style: simple
         explode: false
         schema:
-          example: '"cc01d7c2-aa54-4504-8b98-28bd730d51d8"'
+          type: string
+          format: uuid
+          example: cc01d7c2-aa54-4504-8b98-28bd730d51d8
       - name: roleId
         in: path
         required: true
         style: simple
         explode: false
         schema:
-          example: '"a1234567-89b0-12d3-a456-426614174000"'
+          type: string
+          format: uuid
+          example: a1234567-89b0-12d3-a456-426614174000
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactRole'
-            example: "{\"id\":\"a1234567-89b0-12d3-a456-426614174000\",\"contactId\"\
-              :\"cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"accountId\":\"0017Q000009ZWn6QAG\"\
-              ,\"contactRole\":\"Employee\"}"
+            examples:
+              default:
+                summary: Example request to update a contact role
+                value:
+                  id: a1234567-89b0-12d3-a456-426614174000
+                  contactId: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                  accountId: 0017Q000009ZWn6QAG
+                  contactRole: Employee
+        required: true
       responses:
         "200":
           description: The updated contact
@@ -374,33 +611,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContactRole'
-              example: "{\"id\":\"a1234567-89b0-12d3-a456-426614174000\",\"contactId\"\
-                :\"cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"accountId\":\"0017Q000009ZWn6QAG\"\
-                ,\"contactRole\":\"Employee\",\"creationDateTime\":\"2022-12-05T11:23:56.724Z\"\
-                ,\"lastUpdateDateTime\":\"2022-12-07T14:35:00.000Z\"}"
+              examples:
+                default:
+                  summary: Example response of contact role update
+                  value:
+                    id: a1234567-89b0-12d3-a456-426614174000
+                    contactId: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+                    accountId: 0017Q000009ZWn6QAG
+                    contactRole: Employee
+                    creationDateTime: 2022-12-05T11:23:56.724Z
+                    lastUpdateDateTime: 2022-12-07T14:35:00.000Z
         "400":
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
         "401":
           description: Unauthorized
-          content: {}
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
-        "403":
-          description: Forbidden
-          content: {}
-        "404":
-          description: Not found
-          content: {}
     delete:
       tags:
       - Contact roles
@@ -413,225 +651,39 @@ paths:
         style: simple
         explode: false
         schema:
-          example: '"cc01d7c2-aa54-4504-8b98-28bd730d51d8"'
+          type: string
+          format: uuid
+          example: cc01d7c2-aa54-4504-8b98-28bd730d51d8
       - name: roleId
         in: path
         required: true
         style: simple
         explode: false
         schema:
-          example: '"a1234567-89b0-12d3-a456-426614174000"'
+          type: string
+          format: uuid
+          example: a1234567-89b0-12d3-a456-426614174000
       responses:
-        "400":
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples: {}
-        "401":
-          description: Unauthorized
-          content: {}
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples: {}
         "204":
           description: No content (successful deletion)
-          content: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          description: Unauthorized
         "403":
           description: Forbidden
-          content: {}
         "404":
           description: Not found
-          content: {}
-  /contacts:
-    summary: /contacts
-    get:
-      tags:
-      - Contacts
-      summary: List all contacts
-      operationId: listContacts
-      parameters:
-      - name: lastName
-        in: query
-        description: Filter by contact last name
-        required: false
-        allowEmptyValue: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: firstName
-        in: query
-        description: Filter by contact first name
-        required: false
-        allowEmptyValue: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          example: John
-      - name: lastUpdateBefore
-        in: query
-        description: Filter by contacts last updated before the specified date
-        required: false
-        allowEmptyValue: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          format: date-time
-          example: 2022-12-01T00:00:00Z
-      - name: lastUpdateAfter
-        in: query
-        description: Filter by contacts last updated after the specified date
-        required: false
-        allowEmptyValue: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          format: date-time
-          example: 2022-11-01T00:00:00Z
-      - name: limit
-        in: query
-        description: Maximum number of contacts to return in a single call
-        required: false
-        allowEmptyValue: false
-        style: form
-        explode: true
-        schema:
-          maximum: 2000
-          minimum: 200
-          type: integer
-          format: int64
-          example: 200
-          default: 200
-      - name: offset
-        in: query
-        description: Pagination offset
-        required: false
-        allowEmptyValue: false
-        style: form
-        explode: true
-        schema:
-          minimum: 0
-          type: integer
-          format: int64
-          example: 200
-          default: 0
-      - name: sortBy
-        in: query
-        description: Attribute to sort the contacts by
-        required: false
-        allowEmptyValue: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          example: lastName
-          default: id
-          enum:
-          - id
-          - lastName
-          - lastUpdateDateTime
-      - name: sortOrder
-        in: query
-        description: Sort order for the results
-        required: false
-        allowEmptyValue: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          example: ascending
-          default: ascending
-          enum:
-          - ascending
-          - descending
-      responses:
-        "200":
-          description: A list of contacts
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedContacts'
-              example: "{\"itemCount\":1,\"hasMore\":false,\"contacts\":[{\"id\":\"\
-                cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"salutation\":\"Mr.\",\"firstName\"\
-                :\"John\",\"middleName\":\"Robert\",\"lastName\":\"Doe\",\"birthDate\"\
-                :\"1997-12-15\",\"email\":\"john.doe@example.com\",\"phoneNumber\"\
-                :\"123-456-7890\",\"creationDateTime\":\"2022-12-05T11:23:56.724Z\"\
-                ,\"lastUpdateDateTime\":\"2022-12-05T11:23:56.724Z\"}]}"
-        "400":
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples: {}
-        "401":
-          description: Unauthorized
-          content: {}
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              examples: {}
-        "403":
-          description: Forbidden
-          content: {}
-    post:
-      tags:
-      - Contacts
-      summary: Create a new contact
-      operationId: createContact
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Contact'
-            example: "{\"salutation\":\"Mr.\",\"firstName\":\"John\",\"middleName\"\
-              :\"Robert\",\"lastName\":\"Doe\",\"birthDate\":\"1997-12-15\",\"email\"\
-              :\"john.doe@example.com\",\"phoneNumber\":\"123-456-7890\"}"
-      responses:
-        "201":
-          description: The created contact
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Contact'
-              example: "{\"id\":\"cc01d7c2-aa54-4504-8b98-28bd730d51d8\",\"salutation\"\
-                :\"Mr.\",\"firstName\":\"John\",\"middleName\":\"Robert\",\"lastName\"\
-                :\"Doe\",\"birthDate\":\"1997-12-15\",\"email\":\"john.doe@example.com\"\
-                ,\"phoneNumber\":\"123-456-7890\",\"creationDateTime\":\"2022-12-05T11:23:56.724Z\"\
-                ,\"lastUpdateDateTime\":\"2022-12-05T11:23:56.724Z\"}"
-        "400":
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples: {}
-        "401":
-          description: Unauthorized
-          content: {}
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples: {}
-        "403":
-          description: Forbidden
-          content: {}
 components:
   schemas:
     PaginatedContacts:
@@ -639,62 +691,111 @@ components:
       - itemCount
       type: object
       properties:
+        itemCount:
+          type: integer
+          description: The total number of contacts available.
+          example: 2
         hasMore:
           type: boolean
           description: Indicates if there are more contacts to load.
           example: false
           default: false
-        accounts:
+        contacts:
           maxItems: 2000
           minItems: 0
           type: array
           description: A list of contacts.
           items:
             $ref: '#/components/schemas/Contact'
-        itemCount:
-          type: integer
-          description: The total number of contacts available.
-          format: int32
-          example: 2
-    Error:
+    Contact:
+      required:
+      - email
+      - firstName
+      - lastName
       type: object
       properties:
-        Code:
-          maxLength: 3
-          minLength: 3
+        id:
           type: string
-          description: HTTP status code associated to the error.
-          example: "500"
-        Exception:
-          maxLength: 1000
+          description: Unique identifier for the contact.
+          format: uuid
+          example: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+        salutation:
           type: string
-          description: Error message detailing what went wrong.
-          example: Internal server error
-        TransactionId:
-          maxLength: 50
+          description: The contact salutation.
+          example: Mr
+          enum:
+          - Mr
+          - Mrs
+          - Ms
+          - Miss
+          - Dr
+          - Prof
+        firstName:
+          maxLength: 100
+          minLength: 1
           type: string
-          description: "A unique identifier for the transaction, for debugging."
-          example: APIGW:e632bb5e-bf09-473e-958c-0f2cc202bf42:621
-    ContactRole:
-      type: object
-      properties:
-        accountId:
-          maxLength: 18
-          minLength: 18
+          description: The first name of the contact.
+          example: John
+        middleName:
+          maxLength: 100
+          minLength: 1
           type: string
-          description: The ID of the account associated with the contact.
-          example: 0017Q000009ZWn6QAG
+          description: The middle name of the contact.
+          example: Robert
+        lastName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The last name of the contact.
+          example: Doe
+        birthDate:
+          type: string
+          description: The contact date of birth.
+          format: date
+          example: 1997-12-15
+        email:
+          type: string
+          description: The email address of the contact.
+          format: email
+          example: john.doe@example.com
+        phoneNumber:
+          type: string
+          description: The phone number of the contact.
+          example: 123-456-7890
+        creationDateTime:
+          type: string
+          description: The timestamp the contact was created.
+          format: date-time
+          example: 2022-12-05T11:23:56.724Z
         lastUpdateDateTime:
           type: string
-          description: The timestamp the contact role was last updated.
+          description: The timestamp the contact was last updated.
           format: date-time
           example: 2022-12-07T14:35:00Z
+    ContactRole:
+      required:
+      - accountId
+      - contactId
+      - contactRole
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the contact role.
+          format: uuid
+          example: a1234567-89b0-12d3-a456-426614174000
         contactId:
           maxLength: 36
           minLength: 36
           type: string
           description: The ID of the contact.
           example: cc01d7c2-aa54-4504-8b98-28bd730d51d8
+        accountId:
+          maxLength: 18
+          minLength: 15
+          type: string
+          description: The ID of the account associated with the contact.
+          example: 0017Q000009ZWn6QAG
         contactRole:
           type: string
           description: The role of the contact within the account.
@@ -704,87 +805,42 @@ components:
           - Contractor
           - Partner
           - Supplier
-        id:
-          type: string
-          description: Unique identifier for the contact role.
-          format: uuid
         creationDateTime:
           type: string
           description: The timestamp the contact role was created.
           format: date-time
           example: 2022-12-05T11:23:56.724Z
-    Contact:
-      required:
-      - email
-      - firstName
-      - lastName
-      type: object
-      properties:
-        firstName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: The first name of the contact.
-          example: John
-        lastName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: The last name of the contact.
-          example: Doe
         lastUpdateDateTime:
           type: string
-          description: The timestamp the contact was last updated.
+          description: The timestamp the contact role was last updated.
           format: date-time
           example: 2022-12-07T14:35:00Z
-        phoneNumber:
+    Error:
+      required:
+      - message
+      type: object
+      properties:
+        Exception:
+          maxLength: 1000
           type: string
-          description: The phone number of the contact.
-          example: 123-456-7890
-        middleName:
-          maxLength: 100
-          minLength: 1
+          description: Error message detailing what went wrong.
+          example: Internal server error
+        Code:
+          maxLength: 3
+          minLength: 3
           type: string
-          description: The middle name of the contact.
-          example: Robert
-        id:
+          description: HTTP status code associated to the error.
+          example: "500"
+        TransactionId:
+          maxLength: 50
           type: string
-          description: Unique identifier for the contact.
-          format: uuid
-        salutation:
-          type: string
-          description: The contact salutation.
-          example: Mr.
-          enum:
-          - Mr.
-          - Mrs.
-          - Ms.
-          - Miss
-          - Dr.
-          - Prof.
-        birthDate:
-          type: string
-          description: The contact date of birth.
-          format: date
-        email:
-          type: string
-          description: The email address of the contact.
-          format: email
-          example: john.doe@example.com
-        creationDateTime:
-          type: string
-          description: The timestamp the contact was created.
-          format: date-time
-          example: 2022-12-05T11:23:56.724Z
-  responses: {}
-  parameters: {}
-  examples: {}
-  requestBodies: {}
-  headers: {}
+          description: "A unique identifier for the transaction, for debugging."
+          example: APIGW:e632bb5e-bf09-473e-958c-0f2cc202bf42:621
   securitySchemes:
+    httpBasicAuth:
+      type: http
+      scheme: basic
     apiKey:
       type: apiKey
       name: x-Gateway-APIKey
       in: header
-  links: {}
-  callbacks: {}

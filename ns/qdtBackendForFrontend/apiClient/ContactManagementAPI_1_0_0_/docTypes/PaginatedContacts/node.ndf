@@ -51,6 +51,43 @@
         <value name="node_type">field</value>
         <value name="node_subtype">unknown</value>
         <value name="is_public">false</value>
+        <value name="field_name">itemCount</value>
+        <value name="field_type">object</value>
+        <value name="field_dim">0</value>
+        <null name="field_opt"/>
+        <value name="field_is_jsonSchema">true</value>
+        <null name="title"/>
+        <value name="description">The total number of contacts available.</value>
+        <null name="readOnly"/>
+        <null name="writeOnly"/>
+        <array name="field_content_type" type="record" depth="1">
+          <record javaclass="com.wm.util.Values">
+            <record name="type" javaclass="com.wm.util.Values">
+              <value name="key">type</value>
+              <value name="value">integer</value>
+              <value name="type">STRING</value>
+            </record>
+            <record name="extendedProperties" javaclass="com.wm.util.Values">
+              <record name="extensionName" javaclass="com.wm.util.Values">
+                <value name="key">extensionName</value>
+                <value name="value">openapi</value>
+                <value name="type">STRING</value>
+              </record>
+              <record name="extensionVersion" javaclass="com.wm.util.Values">
+                <value name="key">extensionVersion</value>
+                <value name="value">3.0.2</value>
+                <value name="type">STRING</value>
+              </record>
+            </record>
+          </record>
+        </array>
+        <value name="nillable">false</value>
+        <value name="wrapper_type">java.math.BigInteger</value>
+      </record>
+      <record javaclass="com.wm.util.Values">
+        <value name="node_type">field</value>
+        <value name="node_subtype">unknown</value>
+        <value name="is_public">false</value>
         <value name="field_name">hasMore</value>
         <value name="field_type">object</value>
         <value name="field_dim">0</value>
@@ -93,7 +130,7 @@
         <value name="node_type">record</value>
         <value name="node_subtype">unknown</value>
         <value name="is_public">false</value>
-        <value name="field_name">accounts</value>
+        <value name="field_name">contacts</value>
         <value name="field_type">recref</value>
         <value name="field_dim">1</value>
         <value name="field_opt">true</value>
@@ -144,48 +181,6 @@
         <null name="elementWrapper"/>
         <null name="wrappedElement"/>
         <value name="rec_ref">qdtBackendForFrontend.apiClient.ContactManagementAPI_1_0_0_.docTypes:Contact</value>
-      </record>
-      <record javaclass="com.wm.util.Values">
-        <value name="node_type">field</value>
-        <value name="node_subtype">unknown</value>
-        <value name="is_public">false</value>
-        <value name="field_name">itemCount</value>
-        <value name="field_type">object</value>
-        <value name="field_dim">0</value>
-        <null name="field_opt"/>
-        <value name="field_is_jsonSchema">true</value>
-        <null name="title"/>
-        <value name="description">The total number of contacts available.</value>
-        <null name="readOnly"/>
-        <null name="writeOnly"/>
-        <array name="field_content_type" type="record" depth="1">
-          <record javaclass="com.wm.util.Values">
-            <record name="type" javaclass="com.wm.util.Values">
-              <value name="key">type</value>
-              <value name="value">integer</value>
-              <value name="type">STRING</value>
-            </record>
-            <record name="format" javaclass="com.wm.util.Values">
-              <value name="key">format</value>
-              <value name="value">int32</value>
-              <value name="type">STRING</value>
-            </record>
-            <record name="extendedProperties" javaclass="com.wm.util.Values">
-              <record name="extensionName" javaclass="com.wm.util.Values">
-                <value name="key">extensionName</value>
-                <value name="value">openapi</value>
-                <value name="type">STRING</value>
-              </record>
-              <record name="extensionVersion" javaclass="com.wm.util.Values">
-                <value name="key">extensionVersion</value>
-                <value name="value">3.0.2</value>
-                <value name="type">STRING</value>
-              </record>
-            </record>
-          </record>
-        </array>
-        <value name="nillable">false</value>
-        <value name="wrapper_type">java.lang.Integer</value>
       </record>
     </array>
     <null name="rec_closed"/>

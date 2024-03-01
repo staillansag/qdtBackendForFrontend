@@ -33,17 +33,11 @@
         <record javaclass="com.wm.util.Values">
           <value name="node_type">field</value>
           <value name="node_subtype">unknown</value>
-          <record name="node_hints" javaclass="com.wm.util.Values">
-            <value name="field_usereditable">true</value>
-          </record>
           <value name="is_public">false</value>
           <value name="field_name">serverURL</value>
           <value name="field_type">string</value>
           <value name="field_is_jsonSchema">true</value>
           <value name="field_dim">0</value>
-          <array name="field_options" type="value" depth="1">
-            <value>https://env132575.apigw-aw-eu.webmethods.io/gateway/ContactManagementAPI/1.0.0</value>
-          </array>
           <array name="field_content_type" type="record" depth="1">
             <record javaclass="com.wm.util.Values">
               <record name="extendedProperties" javaclass="com.wm.util.Values">
@@ -264,7 +258,7 @@
                   <value name="field_is_jsonSchema">true</value>
                   <value name="field_dim">0</value>
                   <value name="field_opt">true</value>
-                  <value name="wrapper_type">java.lang.Long</value>
+                  <value name="wrapper_type">java.math.BigInteger</value>
                   <array name="field_content_type" type="record" depth="1">
                     <record javaclass="com.wm.util.Values">
                       <record name="type" javaclass="com.wm.util.Values">
@@ -280,11 +274,6 @@
                       <record name="minimum" javaclass="com.wm.util.Values">
                         <value name="key">minimum</value>
                         <number name="value" type="BigDecimal">200</number>
-                        <value name="type">STRING</value>
-                      </record>
-                      <record name="format" javaclass="com.wm.util.Values">
-                        <value name="key">format</value>
-                        <value name="value">int64</value>
                         <value name="type">STRING</value>
                       </record>
                       <record name="extendedProperties" javaclass="com.wm.util.Values">
@@ -317,7 +306,7 @@
                   <value name="field_is_jsonSchema">true</value>
                   <value name="field_dim">0</value>
                   <value name="field_opt">true</value>
-                  <value name="wrapper_type">java.lang.Long</value>
+                  <value name="wrapper_type">java.math.BigInteger</value>
                   <array name="field_content_type" type="record" depth="1">
                     <record javaclass="com.wm.util.Values">
                       <record name="type" javaclass="com.wm.util.Values">
@@ -328,11 +317,6 @@
                       <record name="minimum" javaclass="com.wm.util.Values">
                         <value name="key">minimum</value>
                         <number name="value" type="BigDecimal">0</number>
-                        <value name="type">STRING</value>
-                      </record>
-                      <record name="format" javaclass="com.wm.util.Values">
-                        <value name="key">format</value>
-                        <value name="value">int64</value>
                         <value name="type">STRING</value>
                       </record>
                       <record name="extendedProperties" javaclass="com.wm.util.Values">
@@ -489,6 +473,7 @@
               <value name="field_is_jsonSchema">true</value>
               <value name="field_dim">0</value>
               <array name="field_options" type="value" depth="1">
+                <value>BASIC</value>
                 <value>APIKEY</value>
               </array>
               <array name="field_content_type" type="record" depth="1">
@@ -508,6 +493,120 @@
                 </record>
               </array>
               <value name="nillable">true</value>
+            </record>
+            <record javaclass="com.wm.util.Values">
+              <value name="node_type">record</value>
+              <value name="node_subtype">unknown</value>
+              <value name="is_public">false</value>
+              <value name="field_name">http</value>
+              <value name="field_type">record</value>
+              <value name="field_is_jsonSchema">true</value>
+              <value name="field_dim">0</value>
+              <value name="field_opt">true</value>
+              <array name="field_content_type" type="record" depth="1">
+                <record javaclass="com.wm.util.Values">
+                  <record name="extendedProperties" javaclass="com.wm.util.Values">
+                    <record name="extensionName" javaclass="com.wm.util.Values">
+                      <value name="key">extensionName</value>
+                      <value name="value">openapi</value>
+                      <value name="type">STRING</value>
+                    </record>
+                    <record name="extensionVersion" javaclass="com.wm.util.Values">
+                      <value name="key">extensionVersion</value>
+                      <value name="value">3.0.2</value>
+                      <value name="type">STRING</value>
+                    </record>
+                  </record>
+                </record>
+              </array>
+              <value name="nillable">true</value>
+              <array name="rec_fields" type="record" depth="1">
+                <record javaclass="com.wm.util.Values">
+                  <value name="node_type">record</value>
+                  <value name="node_subtype">unknown</value>
+                  <value name="is_public">false</value>
+                  <value name="field_name">basic</value>
+                  <value name="field_type">record</value>
+                  <value name="field_is_jsonSchema">true</value>
+                  <value name="field_dim">0</value>
+                  <array name="field_content_type" type="record" depth="1">
+                    <record javaclass="com.wm.util.Values">
+                      <record name="extendedProperties" javaclass="com.wm.util.Values">
+                        <record name="extensionName" javaclass="com.wm.util.Values">
+                          <value name="key">extensionName</value>
+                          <value name="value">openapi</value>
+                          <value name="type">STRING</value>
+                        </record>
+                        <record name="extensionVersion" javaclass="com.wm.util.Values">
+                          <value name="key">extensionVersion</value>
+                          <value name="value">3.0.2</value>
+                          <value name="type">STRING</value>
+                        </record>
+                      </record>
+                    </record>
+                  </array>
+                  <value name="nillable">true</value>
+                  <array name="rec_fields" type="record" depth="1">
+                    <record javaclass="com.wm.util.Values">
+                      <value name="node_type">field</value>
+                      <value name="node_subtype">unknown</value>
+                      <value name="is_public">false</value>
+                      <value name="field_name">user</value>
+                      <value name="field_type">string</value>
+                      <value name="field_is_jsonSchema">true</value>
+                      <value name="field_dim">0</value>
+                      <array name="field_content_type" type="record" depth="1">
+                        <record javaclass="com.wm.util.Values">
+                          <record name="extendedProperties" javaclass="com.wm.util.Values">
+                            <record name="extensionName" javaclass="com.wm.util.Values">
+                              <value name="key">extensionName</value>
+                              <value name="value">openapi</value>
+                              <value name="type">STRING</value>
+                            </record>
+                            <record name="extensionVersion" javaclass="com.wm.util.Values">
+                              <value name="key">extensionVersion</value>
+                              <value name="value">3.0.2</value>
+                              <value name="type">STRING</value>
+                            </record>
+                          </record>
+                        </record>
+                      </array>
+                      <value name="nillable">true</value>
+                    </record>
+                    <record javaclass="com.wm.util.Values">
+                      <value name="node_type">field</value>
+                      <value name="node_subtype">unknown</value>
+                      <record name="node_hints" javaclass="com.wm.util.Values">
+                        <value name="field_password">true</value>
+                      </record>
+                      <value name="is_public">false</value>
+                      <value name="field_name">pass</value>
+                      <value name="field_type">string</value>
+                      <value name="field_is_jsonSchema">true</value>
+                      <value name="field_dim">0</value>
+                      <array name="field_content_type" type="record" depth="1">
+                        <record javaclass="com.wm.util.Values">
+                          <record name="extendedProperties" javaclass="com.wm.util.Values">
+                            <record name="extensionName" javaclass="com.wm.util.Values">
+                              <value name="key">extensionName</value>
+                              <value name="value">openapi</value>
+                              <value name="type">STRING</value>
+                            </record>
+                            <record name="extensionVersion" javaclass="com.wm.util.Values">
+                              <value name="key">extensionVersion</value>
+                              <value name="value">3.0.2</value>
+                              <value name="type">STRING</value>
+                            </record>
+                          </record>
+                        </record>
+                      </array>
+                      <value name="nillable">true</value>
+                    </record>
+                  </array>
+                  <value name="modifiable">true</value>
+                </record>
+              </array>
+              <value name="modifiable">true</value>
             </record>
             <record javaclass="com.wm.util.Values">
               <value name="node_type">record</value>
@@ -831,19 +930,6 @@
           <value name="node_type">record</value>
           <value name="node_subtype">unknown</value>
           <value name="is_public">false</value>
-          <value name="field_name">401</value>
-          <value name="field_type">record</value>
-          <value name="field_is_jsonSchema">true</value>
-          <value name="field_dim">0</value>
-          <value name="field_opt">true</value>
-          <array name="rec_fields" type="record" depth="1">
-          </array>
-          <value name="modifiable">true</value>
-        </record>
-        <record javaclass="com.wm.util.Values">
-          <value name="node_type">record</value>
-          <value name="node_subtype">unknown</value>
-          <value name="is_public">false</value>
           <value name="field_name">500</value>
           <value name="field_type">record</value>
           <value name="field_is_jsonSchema">true</value>
@@ -888,19 +974,6 @@
           </array>
           <value name="modifiable">true</value>
         </record>
-        <record javaclass="com.wm.util.Values">
-          <value name="node_type">record</value>
-          <value name="node_subtype">unknown</value>
-          <value name="is_public">false</value>
-          <value name="field_name">403</value>
-          <value name="field_type">record</value>
-          <value name="field_is_jsonSchema">true</value>
-          <value name="field_dim">0</value>
-          <value name="field_opt">true</value>
-          <array name="rec_fields" type="record" depth="1">
-          </array>
-          <value name="modifiable">true</value>
-        </record>
       </array>
       <value name="modifiable">true</value>
     </record>
@@ -939,7 +1012,7 @@
     <value>PATCH</value>
   </array>
   <value name="pipeline_option">0</value>
-  <value name="originURI">file://C:\Users\stai\Downloads\ContactManagementAPI.json</value>
+  <value name="originURI">file://C:\SAG\IntegrationServer\packages\qdtBackendForFrontend\resources\api\ContactManagementAPI.yml</value>
   <value name="modifiable">true</value>
   <value name="is_public">false</value>
 </Values>

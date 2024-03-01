@@ -53,6 +53,97 @@
         <value name="node_type">field</value>
         <value name="node_subtype">unknown</value>
         <value name="is_public">false</value>
+        <value name="field_name">id</value>
+        <value name="field_type">string</value>
+        <value name="field_dim">0</value>
+        <value name="field_opt">true</value>
+        <value name="field_is_jsonSchema">true</value>
+        <null name="title"/>
+        <value name="description">Unique identifier for the contact.</value>
+        <null name="readOnly"/>
+        <null name="writeOnly"/>
+        <array name="field_content_type" type="record" depth="1">
+          <record javaclass="com.wm.util.Values">
+            <record name="type" javaclass="com.wm.util.Values">
+              <value name="key">type</value>
+              <value name="value">string</value>
+              <value name="type">STRING</value>
+            </record>
+            <record name="format" javaclass="com.wm.util.Values">
+              <value name="key">format</value>
+              <value name="value">uuid</value>
+              <value name="type">STRING</value>
+            </record>
+            <record name="extendedProperties" javaclass="com.wm.util.Values">
+              <record name="extensionName" javaclass="com.wm.util.Values">
+                <value name="key">extensionName</value>
+                <value name="value">openapi</value>
+                <value name="type">STRING</value>
+              </record>
+              <record name="extensionVersion" javaclass="com.wm.util.Values">
+                <value name="key">extensionVersion</value>
+                <value name="value">3.0.2</value>
+                <value name="type">STRING</value>
+              </record>
+            </record>
+          </record>
+        </array>
+        <value name="nillable">false</value>
+        <null name="wrapper_type"/>
+      </record>
+      <record javaclass="com.wm.util.Values">
+        <value name="node_type">field</value>
+        <value name="node_subtype">unknown</value>
+        <value name="is_public">false</value>
+        <value name="field_name">salutation</value>
+        <value name="field_type">string</value>
+        <value name="field_dim">0</value>
+        <value name="field_opt">true</value>
+        <value name="field_is_jsonSchema">true</value>
+        <null name="title"/>
+        <value name="description">The contact salutation.</value>
+        <null name="readOnly"/>
+        <null name="writeOnly"/>
+        <array name="field_content_type" type="record" depth="1">
+          <record javaclass="com.wm.util.Values">
+            <record name="type" javaclass="com.wm.util.Values">
+              <value name="key">type</value>
+              <value name="value">string</value>
+              <value name="type">STRING</value>
+            </record>
+            <record name="enumProperty" javaclass="com.wm.util.Values">
+              <value name="key">enumProperty</value>
+              <array name="value" type="value" depth="1">
+                <value>Mr</value>
+                <value>Mrs</value>
+                <value>Ms</value>
+                <value>Miss</value>
+                <value>Dr</value>
+                <value>Prof</value>
+              </array>
+              <value name="type">LIST</value>
+            </record>
+            <record name="extendedProperties" javaclass="com.wm.util.Values">
+              <record name="extensionName" javaclass="com.wm.util.Values">
+                <value name="key">extensionName</value>
+                <value name="value">openapi</value>
+                <value name="type">STRING</value>
+              </record>
+              <record name="extensionVersion" javaclass="com.wm.util.Values">
+                <value name="key">extensionVersion</value>
+                <value name="value">3.0.2</value>
+                <value name="type">STRING</value>
+              </record>
+            </record>
+          </record>
+        </array>
+        <value name="nillable">false</value>
+        <null name="wrapper_type"/>
+      </record>
+      <record javaclass="com.wm.util.Values">
+        <value name="node_type">field</value>
+        <value name="node_subtype">unknown</value>
+        <value name="is_public">false</value>
         <value name="field_name">firstName</value>
         <value name="field_type">string</value>
         <value name="field_dim">0</value>
@@ -77,132 +168,6 @@
             <record name="minLength" javaclass="com.wm.util.Values">
               <value name="key">minLength</value>
               <number name="value" type="Integer">1</number>
-              <value name="type">STRING</value>
-            </record>
-            <record name="extendedProperties" javaclass="com.wm.util.Values">
-              <record name="extensionName" javaclass="com.wm.util.Values">
-                <value name="key">extensionName</value>
-                <value name="value">openapi</value>
-                <value name="type">STRING</value>
-              </record>
-              <record name="extensionVersion" javaclass="com.wm.util.Values">
-                <value name="key">extensionVersion</value>
-                <value name="value">3.0.2</value>
-                <value name="type">STRING</value>
-              </record>
-            </record>
-          </record>
-        </array>
-        <value name="nillable">false</value>
-        <null name="wrapper_type"/>
-      </record>
-      <record javaclass="com.wm.util.Values">
-        <value name="node_type">field</value>
-        <value name="node_subtype">unknown</value>
-        <value name="is_public">false</value>
-        <value name="field_name">lastName</value>
-        <value name="field_type">string</value>
-        <value name="field_dim">0</value>
-        <null name="field_opt"/>
-        <value name="field_is_jsonSchema">true</value>
-        <null name="title"/>
-        <value name="description">The last name of the contact.</value>
-        <null name="readOnly"/>
-        <null name="writeOnly"/>
-        <array name="field_content_type" type="record" depth="1">
-          <record javaclass="com.wm.util.Values">
-            <record name="type" javaclass="com.wm.util.Values">
-              <value name="key">type</value>
-              <value name="value">string</value>
-              <value name="type">STRING</value>
-            </record>
-            <record name="maxLength" javaclass="com.wm.util.Values">
-              <value name="key">maxLength</value>
-              <number name="value" type="Integer">100</number>
-              <value name="type">STRING</value>
-            </record>
-            <record name="minLength" javaclass="com.wm.util.Values">
-              <value name="key">minLength</value>
-              <number name="value" type="Integer">1</number>
-              <value name="type">STRING</value>
-            </record>
-            <record name="extendedProperties" javaclass="com.wm.util.Values">
-              <record name="extensionName" javaclass="com.wm.util.Values">
-                <value name="key">extensionName</value>
-                <value name="value">openapi</value>
-                <value name="type">STRING</value>
-              </record>
-              <record name="extensionVersion" javaclass="com.wm.util.Values">
-                <value name="key">extensionVersion</value>
-                <value name="value">3.0.2</value>
-                <value name="type">STRING</value>
-              </record>
-            </record>
-          </record>
-        </array>
-        <value name="nillable">false</value>
-        <null name="wrapper_type"/>
-      </record>
-      <record javaclass="com.wm.util.Values">
-        <value name="node_type">field</value>
-        <value name="node_subtype">unknown</value>
-        <value name="is_public">false</value>
-        <value name="field_name">lastUpdateDateTime</value>
-        <value name="field_type">object</value>
-        <value name="field_dim">0</value>
-        <value name="field_opt">true</value>
-        <value name="field_is_jsonSchema">true</value>
-        <null name="title"/>
-        <value name="description">The timestamp the contact was last updated.</value>
-        <null name="readOnly"/>
-        <null name="writeOnly"/>
-        <array name="field_content_type" type="record" depth="1">
-          <record javaclass="com.wm.util.Values">
-            <record name="type" javaclass="com.wm.util.Values">
-              <value name="key">type</value>
-              <value name="value">string</value>
-              <value name="type">STRING</value>
-            </record>
-            <record name="format" javaclass="com.wm.util.Values">
-              <value name="key">format</value>
-              <value name="value">date-time</value>
-              <value name="type">STRING</value>
-            </record>
-            <record name="extendedProperties" javaclass="com.wm.util.Values">
-              <record name="extensionName" javaclass="com.wm.util.Values">
-                <value name="key">extensionName</value>
-                <value name="value">openapi</value>
-                <value name="type">STRING</value>
-              </record>
-              <record name="extensionVersion" javaclass="com.wm.util.Values">
-                <value name="key">extensionVersion</value>
-                <value name="value">3.0.2</value>
-                <value name="type">STRING</value>
-              </record>
-            </record>
-          </record>
-        </array>
-        <value name="nillable">false</value>
-        <value name="wrapper_type">java.util.Date</value>
-      </record>
-      <record javaclass="com.wm.util.Values">
-        <value name="node_type">field</value>
-        <value name="node_subtype">unknown</value>
-        <value name="is_public">false</value>
-        <value name="field_name">phoneNumber</value>
-        <value name="field_type">string</value>
-        <value name="field_dim">0</value>
-        <value name="field_opt">true</value>
-        <value name="field_is_jsonSchema">true</value>
-        <null name="title"/>
-        <value name="description">The phone number of the contact.</value>
-        <null name="readOnly"/>
-        <null name="writeOnly"/>
-        <array name="field_content_type" type="record" depth="1">
-          <record javaclass="com.wm.util.Values">
-            <record name="type" javaclass="com.wm.util.Values">
-              <value name="key">type</value>
-              <value name="value">string</value>
               <value name="type">STRING</value>
             </record>
             <record name="extendedProperties" javaclass="com.wm.util.Values">
@@ -273,13 +238,13 @@
         <value name="node_type">field</value>
         <value name="node_subtype">unknown</value>
         <value name="is_public">false</value>
-        <value name="field_name">id</value>
+        <value name="field_name">lastName</value>
         <value name="field_type">string</value>
         <value name="field_dim">0</value>
-        <value name="field_opt">true</value>
+        <null name="field_opt"/>
         <value name="field_is_jsonSchema">true</value>
         <null name="title"/>
-        <value name="description">Unique identifier for the contact.</value>
+        <value name="description">The last name of the contact.</value>
         <null name="readOnly"/>
         <null name="writeOnly"/>
         <array name="field_content_type" type="record" depth="1">
@@ -289,59 +254,15 @@
               <value name="value">string</value>
               <value name="type">STRING</value>
             </record>
-            <record name="format" javaclass="com.wm.util.Values">
-              <value name="key">format</value>
-              <value name="value">uuid</value>
+            <record name="maxLength" javaclass="com.wm.util.Values">
+              <value name="key">maxLength</value>
+              <number name="value" type="Integer">100</number>
               <value name="type">STRING</value>
             </record>
-            <record name="extendedProperties" javaclass="com.wm.util.Values">
-              <record name="extensionName" javaclass="com.wm.util.Values">
-                <value name="key">extensionName</value>
-                <value name="value">openapi</value>
-                <value name="type">STRING</value>
-              </record>
-              <record name="extensionVersion" javaclass="com.wm.util.Values">
-                <value name="key">extensionVersion</value>
-                <value name="value">3.0.2</value>
-                <value name="type">STRING</value>
-              </record>
-            </record>
-          </record>
-        </array>
-        <value name="nillable">false</value>
-        <null name="wrapper_type"/>
-      </record>
-      <record javaclass="com.wm.util.Values">
-        <value name="node_type">field</value>
-        <value name="node_subtype">unknown</value>
-        <value name="is_public">false</value>
-        <value name="field_name">salutation</value>
-        <value name="field_type">string</value>
-        <value name="field_dim">0</value>
-        <value name="field_opt">true</value>
-        <value name="field_is_jsonSchema">true</value>
-        <null name="title"/>
-        <value name="description">The contact salutation.</value>
-        <null name="readOnly"/>
-        <null name="writeOnly"/>
-        <array name="field_content_type" type="record" depth="1">
-          <record javaclass="com.wm.util.Values">
-            <record name="type" javaclass="com.wm.util.Values">
-              <value name="key">type</value>
-              <value name="value">string</value>
+            <record name="minLength" javaclass="com.wm.util.Values">
+              <value name="key">minLength</value>
+              <number name="value" type="Integer">1</number>
               <value name="type">STRING</value>
-            </record>
-            <record name="enumProperty" javaclass="com.wm.util.Values">
-              <value name="key">enumProperty</value>
-              <array name="value" type="value" depth="1">
-                <value>Mr.</value>
-                <value>Mrs.</value>
-                <value>Ms.</value>
-                <value>Miss</value>
-                <value>Dr.</value>
-                <value>Prof.</value>
-              </array>
-              <value name="type">LIST</value>
             </record>
             <record name="extendedProperties" javaclass="com.wm.util.Values">
               <record name="extensionName" javaclass="com.wm.util.Values">
@@ -448,6 +369,43 @@
         <value name="node_type">field</value>
         <value name="node_subtype">unknown</value>
         <value name="is_public">false</value>
+        <value name="field_name">phoneNumber</value>
+        <value name="field_type">string</value>
+        <value name="field_dim">0</value>
+        <value name="field_opt">true</value>
+        <value name="field_is_jsonSchema">true</value>
+        <null name="title"/>
+        <value name="description">The phone number of the contact.</value>
+        <null name="readOnly"/>
+        <null name="writeOnly"/>
+        <array name="field_content_type" type="record" depth="1">
+          <record javaclass="com.wm.util.Values">
+            <record name="type" javaclass="com.wm.util.Values">
+              <value name="key">type</value>
+              <value name="value">string</value>
+              <value name="type">STRING</value>
+            </record>
+            <record name="extendedProperties" javaclass="com.wm.util.Values">
+              <record name="extensionName" javaclass="com.wm.util.Values">
+                <value name="key">extensionName</value>
+                <value name="value">openapi</value>
+                <value name="type">STRING</value>
+              </record>
+              <record name="extensionVersion" javaclass="com.wm.util.Values">
+                <value name="key">extensionVersion</value>
+                <value name="value">3.0.2</value>
+                <value name="type">STRING</value>
+              </record>
+            </record>
+          </record>
+        </array>
+        <value name="nillable">false</value>
+        <null name="wrapper_type"/>
+      </record>
+      <record javaclass="com.wm.util.Values">
+        <value name="node_type">field</value>
+        <value name="node_subtype">unknown</value>
+        <value name="is_public">false</value>
         <value name="field_name">creationDateTime</value>
         <value name="field_type">object</value>
         <value name="field_dim">0</value>
@@ -455,6 +413,48 @@
         <value name="field_is_jsonSchema">true</value>
         <null name="title"/>
         <value name="description">The timestamp the contact was created.</value>
+        <null name="readOnly"/>
+        <null name="writeOnly"/>
+        <array name="field_content_type" type="record" depth="1">
+          <record javaclass="com.wm.util.Values">
+            <record name="type" javaclass="com.wm.util.Values">
+              <value name="key">type</value>
+              <value name="value">string</value>
+              <value name="type">STRING</value>
+            </record>
+            <record name="format" javaclass="com.wm.util.Values">
+              <value name="key">format</value>
+              <value name="value">date-time</value>
+              <value name="type">STRING</value>
+            </record>
+            <record name="extendedProperties" javaclass="com.wm.util.Values">
+              <record name="extensionName" javaclass="com.wm.util.Values">
+                <value name="key">extensionName</value>
+                <value name="value">openapi</value>
+                <value name="type">STRING</value>
+              </record>
+              <record name="extensionVersion" javaclass="com.wm.util.Values">
+                <value name="key">extensionVersion</value>
+                <value name="value">3.0.2</value>
+                <value name="type">STRING</value>
+              </record>
+            </record>
+          </record>
+        </array>
+        <value name="nillable">false</value>
+        <value name="wrapper_type">java.util.Date</value>
+      </record>
+      <record javaclass="com.wm.util.Values">
+        <value name="node_type">field</value>
+        <value name="node_subtype">unknown</value>
+        <value name="is_public">false</value>
+        <value name="field_name">lastUpdateDateTime</value>
+        <value name="field_type">object</value>
+        <value name="field_dim">0</value>
+        <value name="field_opt">true</value>
+        <value name="field_is_jsonSchema">true</value>
+        <null name="title"/>
+        <value name="description">The timestamp the contact was last updated.</value>
         <null name="readOnly"/>
         <null name="writeOnly"/>
         <array name="field_content_type" type="record" depth="1">
